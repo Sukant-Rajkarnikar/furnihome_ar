@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.9.22'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:8.3.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -19,6 +19,36 @@ allprojects {
 }
 
 rootProject.buildDir = '../build'
+
+// Older Flutter plugins may declare their Android package only in
+// AndroidManifest.xml. AGP 8 requires the same value as `namespace`.
+subprojects {
+    buildscript {
+        configurations.classpath {
+            resolutionStrategy.force "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        }
+    }
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions.jvmTarget = '1.8'
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs += ['-Xlint:-options']
+    }
+
+    afterEvaluate { project ->
+        def androidExtension = project.extensions.findByName('android')
+        def manifestFile = project.file('src/main/AndroidManifest.xml')
+        if (!androidExtension?.namespace && manifestFile.exists()) {
+            def packageName = new XmlSlurper().parse(manifestFile).@package.text()
+            if (packageName) {
+                androidExtension.namespace = packageName
+            }
+        }
+    }
+}
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
