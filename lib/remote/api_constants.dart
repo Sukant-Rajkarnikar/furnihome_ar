@@ -1,5 +1,5 @@
 class ApiConstants {
-  static String baseUrl = 'http://192.168.1.70:3000/';
+  static String baseUrl = 'https://furnihome-api.sukant-furnihome.workers.dev/';
 
   static String categories = 'categories';
   static String furnitures = 'furnitures';
