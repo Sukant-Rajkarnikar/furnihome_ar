@@ -28,6 +28,9 @@ class FurnitureModel {
   @JsonKey(name: 'ar_model')
   String? arObj;
 
+  @JsonKey(name: 'dimensions')
+  String? dimensions;
+
   FurnitureModel(
       {required this.id,
       required this.title,
@@ -36,7 +39,9 @@ class FurnitureModel {
       required this.desc,
       required this.room,
       required this.imageNames,
-      required this.arObj});
+      required this.arObj,
+        required this.dimensions,
+      });
 
   factory FurnitureModel.fromJson(Map<String, dynamic> json) =>
       _$FurnitureModelFromJson(json);

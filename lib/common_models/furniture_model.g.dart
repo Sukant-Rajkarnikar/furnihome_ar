@@ -16,6 +16,7 @@ FurnitureModel _$FurnitureModelFromJson(Map<String, dynamic> json) =>
       room: json['room_name'] as String?,
       imageNames: json['image'] as String?,
       arObj: json['ar_model'] as String?,
+      dimensions: json['dimensions'] as String?,
     );
 
 Map<String, dynamic> _$FurnitureModelToJson(FurnitureModel instance) =>
@@ -28,4 +29,5 @@ Map<String, dynamic> _$FurnitureModelToJson(FurnitureModel instance) =>
       'room_name': instance.room,
       'image': instance.imageNames,
       'ar_model': instance.arObj,
+      'dimensions': instance.dimensions,
     };
