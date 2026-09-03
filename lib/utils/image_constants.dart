@@ -1,5 +1,7 @@
 class ImageConstants {
   static const String IC_APP_LOGO = "assets/drawables/furnihome-logo.png";
+  static const String IC_APP_ICON = "assets/drawables/Furnihome-icon.png";
+  static const String IC_APP_LOGO_TEXT = "assets/drawables/furnihome-logo-text.png";
   static const String IC_BACK_ICON = "assets/drawables/Back_icon.png";
   static const String IC_CLOSE_ICON = "assets/drawables/Close_icon.png";
   static const String IC_HAMBURGER_MENU_ICON = "assets/drawables/Hamburger_Menu.png";

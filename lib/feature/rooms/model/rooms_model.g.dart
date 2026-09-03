@@ -7,7 +7,7 @@ part of 'rooms_model.dart';
 // **************************************************************************
 
 RoomModel _$RoomModelFromJson(Map<String, dynamic> json) => RoomModel(
-      id: json['room_id'] as int,
+      id: (json['room_id'] as num).toInt(),
       title: json['room_name'] as String,
       imageName: json['room_image'] as String,
     );

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:furnihome_ar/di/service_locator.dart';
 import 'package:furnihome_ar/feature/landing/splash_screen.dart';
+import 'package:furnihome_ar/routes/app_route.dart';
 import 'package:furnihome_ar/utils/app_theme.dart';
 import 'package:furnihome_ar/utils/strings.dart';
 
@@ -9,23 +12,7 @@ import 'di/service_locator.dart' as di;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.setUpServiceLocator();
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Furnihome AR',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-      ),
-      home: const MyHomePage(),
-    );
-  }
+  runApp(const ProviderScope(child: MyHomePage()));
 }
 
 class MyHomePage extends StatefulWidget {
@@ -37,15 +24,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final appRoute = locator<AppRouter>();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      builder: EasyLoading.init(),
-      debugShowCheckedModeBanner: false,
-      title: Strings.appName,
-      theme: AppTheme.define(),
-      home: const SplashScreen(),
+    return ProviderScope(
+      child: MaterialApp.router(
+        builder: EasyLoading.init(),
+        debugShowCheckedModeBanner: false,
+        title: Strings.appName,
+        theme: AppTheme.define(),
+        routerConfig: appRoute.config(),
+      ),
     );
   }
 }

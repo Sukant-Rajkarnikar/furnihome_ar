@@ -1,15 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote.dart';
 import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
-import 'package:furnihome_ar/remote/api_constants.dart';
-import 'package:furnihome_ar/remote/dio/base_list_response.dart';
-import 'package:furnihome_ar/remote/errors.dart';
-import 'package:furnihome_ar/remote/http_client.dart';
-import 'package:furnihome_ar/remote/not_null_mapper.dart';
+import 'package:furnihome_ar/shared/network/api_constants.dart';
+import 'package:furnihome_ar/shared/network/dio/base_list_response.dart';
+import 'package:furnihome_ar/shared/network/errors.dart';
+import 'package:furnihome_ar/shared/network/http_client.dart';
+import 'package:furnihome_ar/shared/network/not_null_mapper.dart';
 
 class HomeRemoteImpl implements HomeRemote {
   static final ApiClient _apiClient = locator<ApiClient>();

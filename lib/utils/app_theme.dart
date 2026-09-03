@@ -9,7 +9,7 @@ class AppTheme {
 
   static ThemeData define() {
     return ThemeData(
-        fontFamily: 'Inter',
+        fontFamily: 'HankenGrotesk',
         primaryColor: colors.backGroundColor,
         scaffoldBackgroundColor: colors.backGroundColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,

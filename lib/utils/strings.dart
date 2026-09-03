@@ -1,6 +1,7 @@
 class Strings {
   static const String bySukant = 'By: Sukant Rajkarnikar';
   static const String appName = 'Furnihome Store';
+  static const String furnihome = 'Furnihome';
   static const String home = 'Home';
   static const String searchStore = 'Search Store';
   static const String featuredProducts = 'Featured Products';
@@ -25,6 +26,7 @@ class Strings {
   static const String others = 'Others';
   static const String tryItYourself = 'Try it Yourself';
   static const String rooms = 'Rooms';
+  static const String room = 'Room';
   static const String description = 'Description';
   static const String something_went_wrong = 'Something went wrong';
   static const String search_result_for = 'Search Results for:';
@@ -40,5 +42,14 @@ class Strings {
   static const String back = 'Back';
   static const String ar_view_info = 'AR View Info';
   static const String no_result_found = 'No Results Found';
+  static const String browseByRoom = 'Browse by Room';
+  static const String featuredCategories = 'Featured Categories';
+  static const String newArrivals = 'New Arrivals';
+  static const  noInternetError = 'No internet connection';
+  static const String somethingWentWrong = 'Something went wrong';
+  static const String seeItInYourSpace = 'See it in your space';
+  static const String seeItInYourSpaceText = 'Take the guesswork out of decorating. Use our advanced AR tool to visualize exactly how pieces will look and fit in your home before you buy.';
+  static const String dimensions = 'Dimensions';
+  static const String details = 'Details';
 
 }

@@ -1,16 +1,17 @@
-import 'package:ar_flutter_plugin/datatypes/config_planedetection.dart';
-import 'package:ar_flutter_plugin/datatypes/hittest_result_types.dart';
-import 'package:ar_flutter_plugin/datatypes/node_types.dart';
-import 'package:ar_flutter_plugin/managers/ar_anchor_manager.dart';
-import 'package:ar_flutter_plugin/managers/ar_location_manager.dart';
-import 'package:ar_flutter_plugin/managers/ar_object_manager.dart';
-import 'package:ar_flutter_plugin/managers/ar_session_manager.dart';
-import 'package:ar_flutter_plugin/models/ar_anchor.dart';
-import 'package:ar_flutter_plugin/models/ar_hittest_result.dart';
-import 'package:ar_flutter_plugin/models/ar_node.dart';
-import 'package:ar_flutter_plugin/widgets/ar_view.dart';
+import 'package:ar_flutter_plugin_2/datatypes/config_planedetection.dart';
+import 'package:ar_flutter_plugin_2/datatypes/hittest_result_types.dart';
+import 'package:ar_flutter_plugin_2/datatypes/node_types.dart';
+import 'package:ar_flutter_plugin_2/managers/ar_anchor_manager.dart';
+import 'package:ar_flutter_plugin_2/managers/ar_location_manager.dart';
+import 'package:ar_flutter_plugin_2/managers/ar_object_manager.dart';
+import 'package:ar_flutter_plugin_2/managers/ar_session_manager.dart';
+import 'package:ar_flutter_plugin_2/models/ar_anchor.dart';
+import 'package:ar_flutter_plugin_2/models/ar_hittest_result.dart';
+import 'package:ar_flutter_plugin_2/models/ar_node.dart';
+import 'package:ar_flutter_plugin_2/widgets/ar_view.dart';
+import 'package:ar_flutter_plugin_2/ar_flutter_plugin.dart';
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_gallery_saver_plus/image_gallery_saver_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:furnihome_ar/anim/anim_scale_transition.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
@@ -178,10 +179,18 @@ class _ARViewScreenState extends State<ARViewScreen> {
       if (didAddNodeToAnchor!) {
         nodes = newNode;
       } else {
-        arSessionManager!.onError("Adding Node to Anchor failed");
+        if(arSessionManager == null){
+          throw Exception("ARSessionManager is null");
+          //todo check
+        }
+        arSessionManager!.onError!("Adding Node to Anchor failed");
       }
     } else {
-      arSessionManager!.onError("Adding Anchor failed");
+      if(arSessionManager == null){
+        throw Exception("ARSessionManager is null");
+      }
+      //todo check
+      arSessionManager!.onError!("Adding Anchor failed");
     }
   }
 
@@ -222,7 +231,7 @@ class _ARViewScreenState extends State<ARViewScreen> {
     if (await Permission.storage.request().isGranted) {
       try {
         final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-        final result = await ImageGallerySaver.saveImage(
+        final result = await ImageGallerySaverPlus.saveImage(
             (image as MemoryImage).bytes,
             name: "Furnihome_Image_$timestamp");
         debugPrint(

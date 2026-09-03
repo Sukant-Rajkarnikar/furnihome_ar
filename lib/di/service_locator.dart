@@ -1,3 +1,4 @@
+import 'package:furnihome_ar/shared/network/http_client.dart';
 import 'package:get_it/get_it.dart';
 import 'package:furnihome_ar/feature/categories/data/categories_repository.dart';
 import 'package:furnihome_ar/feature/categories/data/categories_repository_impl.dart';
@@ -34,11 +35,13 @@ import 'package:furnihome_ar/feature/search/data/remote/search_remote_impl.dart'
 import 'package:furnihome_ar/feature/search/data/search_repository.dart';
 import 'package:furnihome_ar/feature/search/data/search_repository_impl.dart';
 import 'package:furnihome_ar/feature/search/screens/search_viewmodel.dart';
-import 'package:furnihome_ar/remote/http_client.dart';
+import 'package:furnihome_ar/routes/app_route.dart';
 
 final GetIt locator = GetIt.instance;
 
 Future setUpServiceLocator() async {
+  locator.registerLazySingleton(() => AppRouter());
+
   //for api
   locator.registerLazySingleton(() => ApiClient());
 

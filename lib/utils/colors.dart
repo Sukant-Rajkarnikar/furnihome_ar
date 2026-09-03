@@ -15,8 +15,11 @@ class AppColors {
   static const purple_light_rgba_f8e2ff = Color.fromRGBO(248, 226, 255, 1);
   static const purple_rgba_9162ff = Color.fromRGBO(145, 98, 255, 1);
   static const purple_rgba_7b44c0 = Color.fromRGBO(123, 68, 192, 1);
-  static const grey_rgba_71727a = Color.fromRGBO(113, 114, 122, 1);
+  static const purple_rgba_5400bf = Color.fromRGBO(84, 0, 191, 1.0);
+  static const grey_rgba_71727a = Color.fromRGBO(90, 90, 97, 1.0);
+  static const grey_rgba_4C4C4C = Color.fromRGBO(76, 76, 76, 1.0);
   static const black_rgba_8F9098 = Color.fromRGBO(143, 144, 152, 1);
+  static const black_rgba_e0e0e0 = Color.fromRGBO(224, 224, 224, 1.0);
   static const grey_rgba_F8F9FE = Color.fromRGBO(248, 249, 254, 1);
   static const grey_rgba_e0e7ff = Color.fromRGBO(224, 231, 255, 1);
   static const white_rgba_ffffff = Color.fromRGBO(255, 255, 255, 1);
