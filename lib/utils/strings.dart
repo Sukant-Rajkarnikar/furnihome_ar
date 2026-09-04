@@ -51,5 +51,8 @@ class Strings {
   static const String seeItInYourSpaceText = 'Take the guesswork out of decorating. Use our advanced AR tool to visualize exactly how pieces will look and fit in your home before you buy.';
   static const String dimensions = 'Dimensions';
   static const String details = 'Details';
+  static const String width = 'Width';
+  static const String depth = 'Depth';
+  static const String height = 'Height';
 
 }
