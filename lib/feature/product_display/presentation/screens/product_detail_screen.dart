@@ -1,15 +1,19 @@
+import 'dart:ui';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
+import 'package:furnihome_ar/routes/app_route.gr.dart';
 import 'package:furnihome_ar/utils/colors.dart';
 import 'package:furnihome_ar/utils/dimens.dart';
 import 'package:furnihome_ar/utils/image_constants.dart';
+import 'package:furnihome_ar/utils/image_header_delegate.dart';
 import 'package:furnihome_ar/utils/strings.dart';
 import 'package:furnihome_ar/utils/text_styles.dart';
 import 'package:furnihome_ar/utils/utils.dart';
 import 'package:furnihome_ar/utils/widget_functions.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 @RoutePage()
 class ProductDetailScreen extends ConsumerStatefulWidget {
@@ -23,10 +27,16 @@ class ProductDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
-
   double furnitureWidth = 0;
   double furnitureDepth = 0;
   double furnitureHeight = 0;
+  bool is3DModelActive = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getDimensions();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +55,13 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
               slivers: [
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _ImageHeaderDelegate(
+                  delegate: ImageHeaderDelegate(
                     minHeight: 250.0,
                     maxHeight: screenWidth,
                     imageUrl: widget.product.imageNames ?? "",
+                    arUrl: widget.product.arObj ??
+                        "https://pub-cbe50be54be740bda3d4cb2461dfcd79.r2.dev/models/Organic%20Wood%20Coffee%20Table.glb",
+                    is3DModelActive: is3DModelActive,
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -197,45 +210,175 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                 ),
               ],
             ),
-            // Custom fixed back button overlay
             Positioned(
               top: 0,
               left: 0,
-              right: 0,
-              child: Container(
-                height: Dimens.spacing_64,
-                width: MediaQuery.sizeOf(context).width,
-                alignment: Alignment.topLeft,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      const AppColors().backGroundColor.withAlpha(0),
-                      const AppColors().backGroundColor.withAlpha(255),
-                    ],
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                  ),
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        const AppColors().backGroundColor.withAlpha(150),
-                        const AppColors().backGroundColor.withAlpha(10),
-                      ],
+              child: InkWell(
+                onTap: () {
+                  context.maybePop();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(Dimens.spacing_12),
+                  child: ClipOval(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: EdgeInsets.all(Dimens.spacing_8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.white_rgba_ffffff.withAlpha(120),
+                          ),
+                          gradient: RadialGradient(
+                            colors: [
+                              AppColors.white_rgba_ffffff.withAlpha(120),
+                              AppColors.white_rgba_ffffff.withAlpha(20),
+                            ],
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: const AppColors().primaryColor,
+                          shadows: [
+                            Shadow(
+                              color: AppColors.white_rbga_ffffff.withAlpha(200),
+                              blurRadius: 10.0,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                    onPressed: () {
-                      context.popRoute();
-                    },
                   ),
                 ),
               ),
             ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Padding(
+                  padding: const EdgeInsets.all(Dimens.spacing_12),
+                  child: _buildViewToggle()),
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildViewToggle() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(30),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.white_rgba_ffffff.withAlpha(200),
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.bottomRight,
+              end: Alignment.topLeft,
+              colors: [
+                AppColors.white_rgba_ffffff.withAlpha(200),
+                AppColors.white_rgba_ffffff.withAlpha(10),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    is3DModelActive = false;
+                  });
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: !is3DModelActive
+                        ? const AppColors().primaryColor
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(26),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.photo_library_outlined,
+                        size: 16,
+                        color: !is3DModelActive
+                            ? AppColors.white_rbga_ffffff
+                            : const AppColors().primaryColor,
+                      ),
+                      addHorizontalSpace(6),
+                      Text(
+                        Strings.photo.toUpperCase(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          letterSpacing: 0.5,
+                          color: !is3DModelActive
+                              ? AppColors.white_rbga_ffffff
+                              : const AppColors().primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    is3DModelActive = true;
+                  });
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: is3DModelActive
+                        ? const AppColors().primaryColor
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(26),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.view_in_ar,
+                        size: 16,
+                        color: is3DModelActive
+                            ? AppColors.white_rbga_ffffff
+                            : const AppColors().primaryColor,
+                      ),
+                      addHorizontalSpace(6),
+                      Text(
+                        Strings.threeDModel.toUpperCase(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          letterSpacing: 0.5,
+                          shadows: [
+                            Shadow(
+                              color: AppColors.white_rbga_ffffff.withAlpha(128),
+                              blurRadius: 2.0,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                          color: is3DModelActive
+                              ? AppColors.white_rbga_ffffff
+                              : const AppColors().primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -255,7 +398,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           if (product.arObj?.isEmpty ?? true) {
             showToast(Strings.ar_view_unavailable, false);
           } else {
-            //todo Navigate to AR View Screen
+            launchDirectAR();
           }
         },
         child: Row(
@@ -277,9 +420,8 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     );
   }
 
-  void getDimensions(){
+  void getDimensions() {
     String dimension = widget.product.dimensions ?? "";
-
     final wMatch = RegExp(r'W(\d+)').firstMatch(dimension);
     final hMatch = RegExp(r'H(\d+)').firstMatch(dimension);
     final dMatch = RegExp(r'D(\d+)').firstMatch(dimension);
@@ -289,40 +431,19 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     furnitureDepth = dMatch != null ? double.parse(dMatch.group(1)!) : 0;
   }
 
-}
-
-class _ImageHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final double minHeight;
-  final double maxHeight;
-  final String imageUrl;
-
-  _ImageHeaderDelegate({
-    required this.minHeight,
-    required this.maxHeight,
-    required this.imageUrl,
-  });
-
-  @override
-  double get minExtent => minHeight;
-
-  @override
-  double get maxExtent => maxHeight;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SizedBox.expand(
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
-  @override
-  bool shouldRebuild(covariant _ImageHeaderDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxExtent ||
-        minHeight != oldDelegate.minExtent ||
-        imageUrl != oldDelegate.imageUrl;
+  Future<void> launchDirectAR() async {
+    final glbUrl = widget.product.arObj ??
+        "https://pub-cbe50be54be740bda3d4cb2461dfcd79.r2.dev/models/Organic%20Wood%20Coffee%20Table.glb";
+    final String encodedUrl = Uri.encodeComponent(glbUrl);
+    final String sceneViewerUrl =
+        'https://arvr.google.com/scene-viewer/1.0?file=$encodedUrl&mode=ar_only&resizable=false';
+    try {
+      await launchUrl(
+        Uri.parse(sceneViewerUrl),
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (e) {
+      debugPrint("Error launching AR: $e");
+    }
   }
 }

@@ -18,16 +18,17 @@ class AppRouter extends $AppRouter {
           path: Paths.splashScreen,
           page: SplashRoute.page,
         ),
-
-        //Authentication
         AutoRoute(
           path: Paths.homeScreen,
           page: HomeRoute.page,
         ),
-    AutoRoute(
-      path: Paths.productScreen,
-      page: ProductDetailRoute.page,
-    ),
-
+        AutoRoute(
+          path: Paths.productScreen,
+          page: ProductDetailRoute.page,
+        ),
+        AutoRoute(
+          path: Paths.arViewScreen,
+          page: ARViewRoute.page,
+        ),
       ];
 }

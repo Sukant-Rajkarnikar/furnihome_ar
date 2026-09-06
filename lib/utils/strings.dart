@@ -25,6 +25,7 @@ class Strings {
   static const String coffeeTables = 'Coffee Tables';
   static const String others = 'Others';
   static const String tryItYourself = 'Try it Yourself';
+  static const String seeInYourSpace = 'See in your space';
   static const String rooms = 'Rooms';
   static const String room = 'Room';
   static const String description = 'Description';
@@ -54,5 +55,7 @@ class Strings {
   static const String width = 'Width';
   static const String depth = 'Depth';
   static const String height = 'Height';
+  static const String photo = 'Photo';
+  static const String threeDModel = '3D Model';
 
 }

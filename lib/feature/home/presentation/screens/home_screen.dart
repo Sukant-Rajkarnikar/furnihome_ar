@@ -30,7 +30,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref.read(homeStateNotifierProvider.notifier).getHomeScreenData());
+    Future.microtask(
+        () => ref.read(homeStateNotifierProvider.notifier).getHomeScreenData());
   }
 
   void _onRefresh() {
@@ -60,7 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             onRefresh: _onRefresh,
             controller: _refreshController,
             child: SingleChildScrollView(
-              child: _buildBody(state), // Extracted for cleanliness
+              child: _buildBody(state),
             ),
           ),
         ),
@@ -69,10 +70,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildBody(dynamic state) {
-    if (state.state == DataConcreteState.loading && state.featuredProducts.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+    if (state.state == DataConcreteState.loading &&
+        state.featuredProducts.isEmpty) {
+      return SizedBox(
+          height: MediaQuery.of(context).size.height * 0.7,
+          child: const Center(child: CircularProgressIndicator()));
     }
-    if (state.state == DataConcreteState.failure && state.featuredProducts.isEmpty) {
+    if (state.state == DataConcreteState.failure &&
+        state.featuredProducts.isEmpty) {
       return Center(child: Text(state.message ?? ''));
     }
     if (state.featuredProducts.isEmpty) {
@@ -96,7 +101,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         addVerticalSpace(Dimens.spacing_8),
         _newArrivalsListWidget(state.newArrivals),
         addVerticalSpace(Dimens.spacing_48),
-        _arProductWidget(state.featuredProducts),
+        _arProductWidget(state.arProducts),
         addVerticalSpace(Dimens.spacing_48),
       ],
     );
@@ -177,7 +182,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           height: Dimens.spacing_350,
           decoration: const BoxDecoration(
               borderRadius:
-              BorderRadius.all(Radius.circular(Dimens.spacing_16))),
+                  BorderRadius.all(Radius.circular(Dimens.spacing_16))),
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -191,9 +196,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          AppColors.black_rgba_1F2024.withAlpha(0),
-                          AppColors.black_rgba_1F2024.withAlpha(225),
-                        ])),
+                      AppColors.black_rgba_1F2024.withAlpha(0),
+                      AppColors.black_rgba_1F2024.withAlpha(225),
+                    ])),
               ),
               Positioned(
                 bottom: 0,
@@ -256,7 +261,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   shape: BoxShape.circle,
                   color: AppColors.white_rbga_ffffff,
                   border:
-                  Border.all(color: AppColors.grey_rgba_e0e7ff, width: 2)),
+                      Border.all(color: AppColors.grey_rgba_e0e7ff, width: 2)),
               child: Padding(
                 padding: const EdgeInsets.all(Dimens.spacing_2),
                 child: ClipOval(
@@ -352,8 +357,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     return InkWell(
       onTap: () {
-        //todo nav to ar screen
-        // context.pushRoute(ProductDetailRoute(product: furniture));
+        debugPrint("Moving");
+        context.pushRoute(ARViewRoute(furnitureModel: furnitureList[0]));
       },
       child: ClipRRect(
         borderRadius: BorderRadiusGeometry.circular(Dimens.spacing_16),
@@ -361,7 +366,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           height: Dimens.spacing_350,
           decoration: const BoxDecoration(
               borderRadius:
-              BorderRadius.all(Radius.circular(Dimens.spacing_16))),
+                  BorderRadius.all(Radius.circular(Dimens.spacing_16))),
           child: Stack(
             fit: StackFit.expand,
             children: [
@@ -375,9 +380,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         begin: Alignment.centerRight,
                         end: Alignment.centerLeft,
                         colors: [
-                          AppColors.white_rbga_ffffff.withAlpha(125),
-                          AppColors.white_rbga_ffffff.withAlpha(200),
-                        ])),
+                      AppColors.white_rbga_ffffff.withAlpha(125),
+                      AppColors.white_rbga_ffffff.withAlpha(200),
+                    ])),
               ),
               Positioned(
                 bottom: 0,
@@ -418,7 +423,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             elevation: Dimens.spacing_0,
                             shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.circular(Dimens.spacing_12),
+                                  BorderRadius.circular(Dimens.spacing_12),
                             )),
                         onPressed: () {},
                         child: Row(

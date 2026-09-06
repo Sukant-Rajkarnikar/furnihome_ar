@@ -73,6 +73,11 @@ const TextStyle text_1F2024_20_regular_400 = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: Dimens.text_size_20);
 
+const TextStyle text_1F2024_24_regular_400 = TextStyle(
+    color: AppColors.black_rgba_1f2024,
+    fontWeight: FontWeight.w400,
+    fontSize: Dimens.text_size_24);
+
 const TextStyle text_1f2024_30_Bold_w800 = TextStyle(
     color: AppColors.black_rgba_1f2024,
     fontWeight: FontWeight.w800,

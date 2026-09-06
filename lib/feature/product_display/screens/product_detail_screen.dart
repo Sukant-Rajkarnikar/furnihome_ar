@@ -142,12 +142,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           if (product.arObj?.isEmpty ?? true) {
             showToast(Strings.ar_view_unavailable, false);
           } else {
-            Navigator.push(
-                context,
-                AnimScaleTransition(
-                    page: ARViewScreen(
-                  furnitureModel: widget.product,
-                )));
+            // Navigator.push(
+            //     context,
+            //     AnimScaleTransition(
+            //         page: ARViewScreen(
+            //       furnitureModel: widget.product,
+            //     )));
           }
         },
         child: Row(

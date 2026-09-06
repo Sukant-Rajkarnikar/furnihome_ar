@@ -13,7 +13,6 @@ import 'package:furnihome_ar/feature/home/data/local/home_local.dart';
 import 'package:furnihome_ar/feature/home/data/local/home_local_impl.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote_impl.dart';
-import 'package:furnihome_ar/feature/home/screens/home_viewmodel.dart';
 import 'package:furnihome_ar/feature/product_display/data/local/product_detail_local.dart';
 import 'package:furnihome_ar/feature/product_display/data/local/product_detail_local_impl.dart';
 import 'package:furnihome_ar/feature/product_display/data/product_detail_repository.dart';
@@ -49,7 +48,6 @@ Future setUpServiceLocator() async {
   locator.registerLazySingleton<HomeLocal>(() => HomeLocalImpl());
   locator.registerLazySingleton<HomeRemote>(() => HomeRemoteImpl());
   locator.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl());
-  locator.registerFactory<HomeViewModel>(() => HomeViewModel());
 
   //categories
   locator.registerLazySingleton<CategoriesLocal>(() => CategoriesLocalImpl());
