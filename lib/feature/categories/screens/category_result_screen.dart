@@ -93,9 +93,9 @@ class _CategoryResultScreenState extends State<CategoryResultScreen> {
               shrinkWrap: true,
               itemCount: items.length,
               itemBuilder: (context, index) {
-                return CommonVerticalProductComponent(
-                  furnitureModel: items[index],
-                );
+                // return CommonVerticalProductComponent(
+                //   furnitureModel: items[index],
+                // );
               });
         case ResponseState.ERROR:
           return const Center(

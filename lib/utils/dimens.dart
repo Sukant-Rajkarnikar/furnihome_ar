@@ -57,6 +57,7 @@ class Dimens {
   static const double text_size_28 = 28.0;
   static const double text_size_26 = 26.0;
   static const double text_size_24 = 24.0;
+  static const double text_size_22 = 22.0;
   static const double text_size_20 = 20.0;
   static const double text_size_19 = 19.0;
   static const double text_size_18 = 18.0;

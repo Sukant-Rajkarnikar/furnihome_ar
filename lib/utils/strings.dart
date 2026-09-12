@@ -15,6 +15,7 @@ class Strings {
   static const String diningRoom = 'Dining Room';
   static const String outdoors = 'Outdoors';
   static const String search = 'Search';
+  static const String search_furniture = 'Search Furniture';
   static const String categories = 'Categories';
   static const String diningTables = 'Dining Tables';
   static const String beds = 'Beds';
@@ -57,5 +58,7 @@ class Strings {
   static const String height = 'Height';
   static const String photo = 'Photo';
   static const String threeDModel = '3D Model';
+  static const String ar = 'AR';
+  static const String filter = 'Filter';
 
 }

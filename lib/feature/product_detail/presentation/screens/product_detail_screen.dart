@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
-import 'package:furnihome_ar/routes/app_route.gr.dart';
 import 'package:furnihome_ar/utils/colors.dart';
 import 'package:furnihome_ar/utils/dimens.dart';
 import 'package:furnihome_ar/utils/image_constants.dart';
@@ -223,16 +222,16 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Container(
-                        padding: EdgeInsets.all(Dimens.spacing_8),
+                        padding: const EdgeInsets.all(Dimens.spacing_8),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: AppColors.white_rgba_ffffff.withAlpha(120),
+                            color: AppColors.white_rgba_ffffff.withAlpha(175),
                           ),
                           gradient: RadialGradient(
                             colors: [
-                              AppColors.white_rgba_ffffff.withAlpha(120),
-                              AppColors.white_rgba_ffffff.withAlpha(20),
+                              AppColors.white_rgba_ffffff.withAlpha(175),
+                              AppColors.white_rgba_ffffff.withAlpha(75),
                             ],
                           ),
                         ),

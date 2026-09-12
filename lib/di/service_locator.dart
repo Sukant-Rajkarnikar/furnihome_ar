@@ -1,3 +1,9 @@
+import 'package:furnihome_ar/feature/product_detail/data/local/product_detail_local.dart';
+import 'package:furnihome_ar/feature/product_detail/data/local/product_detail_local_impl.dart';
+import 'package:furnihome_ar/feature/product_detail/data/product_detail_repository.dart';
+import 'package:furnihome_ar/feature/product_detail/data/product_detail_repository_impl.dart';
+import 'package:furnihome_ar/feature/product_detail/data/remote/product_detail_remote.dart';
+import 'package:furnihome_ar/feature/product_detail/data/remote/product_detail_remote_impl.dart';
 import 'package:furnihome_ar/shared/network/http_client.dart';
 import 'package:get_it/get_it.dart';
 import 'package:furnihome_ar/feature/categories/data/categories_repository.dart';
@@ -13,13 +19,6 @@ import 'package:furnihome_ar/feature/home/data/local/home_local.dart';
 import 'package:furnihome_ar/feature/home/data/local/home_local_impl.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote_impl.dart';
-import 'package:furnihome_ar/feature/product_display/data/local/product_detail_local.dart';
-import 'package:furnihome_ar/feature/product_display/data/local/product_detail_local_impl.dart';
-import 'package:furnihome_ar/feature/product_display/data/product_detail_repository.dart';
-import 'package:furnihome_ar/feature/product_display/data/product_detail_repository_impl.dart';
-import 'package:furnihome_ar/feature/product_display/data/remote/product_detail_remote.dart';
-import 'package:furnihome_ar/feature/product_display/data/remote/product_detail_remote_impl.dart';
-import 'package:furnihome_ar/feature/product_display/screens/product_detail_viewmodel.dart';
 import 'package:furnihome_ar/feature/rooms/data/local/rooms_local.dart';
 import 'package:furnihome_ar/feature/rooms/data/local/rooms_local_impl.dart';
 import 'package:furnihome_ar/feature/rooms/data/remote/rooms_remote.dart';
@@ -54,19 +53,16 @@ Future setUpServiceLocator() async {
   locator.registerLazySingleton<CategoriesRemote>(() => CategoriesRemoteImpl());
   locator.registerLazySingleton<CategoriesRepository>(
       () => CategoriesRepositoryImpl());
-  locator.registerFactory<CategoriesViewModel>(() => CategoriesViewModel());
 
   //rooms
   locator.registerLazySingleton<RoomsLocal>(() => RoomsLocalImpl());
   locator.registerLazySingleton<RoomsRemote>(() => RoomsRemoteImpl());
   locator.registerLazySingleton<RoomsRepository>(() => RoomsRepositoryImpl());
-  locator.registerFactory<RoomsViewModel>(() => RoomsViewModel());
 
   //search
   locator.registerLazySingleton<SearchLocal>(() => SearchLocalImpl());
   locator.registerLazySingleton<SearchRemote>(() => SearchRemoteImpl());
   locator.registerLazySingleton<SearchRepository>(() => SearchRepositoryImpl());
-  locator.registerFactory<SearchViewModel>(() => SearchViewModel());
 
   //product display
   locator.registerLazySingleton<ProductDetailLocal>(
@@ -75,6 +71,4 @@ Future setUpServiceLocator() async {
       () => ProductDetailRemoteImpl());
   locator.registerLazySingleton<ProductDetailRepository>(
       () => ProductDetailRepositoryImpl());
-  locator
-      .registerFactory<ProductDetailViewModel>(() => ProductDetailViewModel());
 }

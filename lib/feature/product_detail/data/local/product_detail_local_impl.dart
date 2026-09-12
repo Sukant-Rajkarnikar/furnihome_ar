@@ -1,0 +1,3 @@
+import 'package:furnihome_ar/feature/product_detail/data/local/product_detail_local.dart';
+
+class ProductDetailLocalImpl implements ProductDetailLocal {}

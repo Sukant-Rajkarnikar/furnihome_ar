@@ -3,6 +3,7 @@ class ApiConstants {
 
   static String categories = 'categories';
   static String furnitures = 'furnitures';
+  static String furnitureSearch = 'furnitures/search';
   static String rooms = 'rooms';
   static String furnituresByCategory = 'furnitures/category';
   static String furnituresByRoom = 'furnitures/room';

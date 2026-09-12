@@ -95,9 +95,9 @@ class NavigatorDrawerComponent extends StatelessWidget {
               title: const Text(Strings.search,
                   style: text_1F2024_16_Regular_w400),
               onTap: () {
-                Navigator.pop(context, true);
-                Navigator.push(
-                    context, AnimScaleTransition(page: const SearchScreen()));
+                // Navigator.pop(context, true);
+                // Navigator.push(
+                //     context, AnimScaleTransition(page: const SearchScreen()));
               },
             ),
           ],

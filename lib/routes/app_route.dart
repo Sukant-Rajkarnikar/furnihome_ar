@@ -27,6 +27,10 @@ class AppRouter extends $AppRouter {
           page: ProductDetailRoute.page,
         ),
         AutoRoute(
+          path: Paths.searchScreen,
+          page: SearchRoute.page,
+        ),
+        AutoRoute(
           path: Paths.arViewScreen,
           page: ARViewRoute.page,
         ),

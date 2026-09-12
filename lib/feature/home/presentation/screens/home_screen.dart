@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/feature/home/presentation/provider/home_screen_state_provider.dart';
+import 'package:furnihome_ar/feature/home/presentation/provider/state/home_screen_state.dart';
 import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
 import 'package:furnihome_ar/routes/app_route.gr.dart';
 import 'package:furnihome_ar/shared/enums/data_state_helper.dart';
@@ -69,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildBody(dynamic state) {
+  Widget _buildBody(HomeScreenState state) {
     if (state.state == DataConcreteState.loading &&
         state.featuredProducts.isEmpty) {
       return SizedBox(
@@ -127,7 +128,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       actions: [
         InkWell(
           child: const Icon(Icons.search),
-          onTap: () {},
+          onTap: () {
+            context.pushRoute(const SearchRoute());
+          },
         )
       ],
       centerTitle: true,
@@ -141,7 +144,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget titleWidget(String title) {
     return Text(
       title,
-      style: text_1F2024_18_Semibold_w400,
+      style: text_1F2024_18_Semibold_w600,
     );
   }
 

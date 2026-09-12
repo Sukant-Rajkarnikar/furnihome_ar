@@ -11,6 +11,7 @@ class AppColors {
   static const grey_rgba_8F9098 = Color.fromRGBO(143, 144, 152, 1);
   static const black_rgba_1f2024 = Color.fromRGBO(31, 32, 36, 1);
   static const black_rgba_1F2024 = Color.fromRGBO(31, 32, 36, 1);
+  static const black_rgba_7C8BA0 = Color.fromRGBO(124, 139, 160, 1.0);
   static const black_rgba_2F3036 = Color.fromRGBO(47, 48, 54, 1);
   static const purple_light_rgba_f8e2ff = Color.fromRGBO(248, 226, 255, 1);
   static const purple_rgba_9162ff = Color.fromRGBO(145, 98, 255, 1);

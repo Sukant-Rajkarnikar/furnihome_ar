@@ -91,9 +91,9 @@ class _RoomResultScreenState extends State<RoomResultScreen> {
               shrinkWrap: true,
               itemCount: items.length,
               itemBuilder: (context, index) {
-                return CommonVerticalProductComponent(
-                  furnitureModel: items[index],
-                );
+                // return CommonVerticalProductComponent(
+                //   furnitureModel: items[index],
+                // );
               });
         case ResponseState.ERROR:
           return const Center(
