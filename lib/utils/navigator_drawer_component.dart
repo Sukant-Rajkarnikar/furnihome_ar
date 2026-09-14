@@ -1,7 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:furnihome_ar/anim/anim_scale_transition.dart';
 import 'package:furnihome_ar/feature/categories/screens/categories_screen.dart';
 import 'package:furnihome_ar/feature/rooms/screens/rooms_screen.dart';
+import 'package:furnihome_ar/routes/app_route.gr.dart';
+import 'package:furnihome_ar/routes/route_util.dart';
 import 'package:furnihome_ar/utils/colors.dart';
 import 'package:furnihome_ar/utils/dimens.dart';
 import 'package:furnihome_ar/utils/image_constants.dart';
@@ -74,9 +77,8 @@ class NavigatorDrawerComponent extends StatelessWidget {
               title: const Text(Strings.categories,
                   style: text_1F2024_16_Regular_w400),
               onTap: () {
-                Navigator.pop(context, true);
-                Navigator.push(context,
-                    AnimScaleTransition(page: const CategoriesScreen()));
+                context.pop();
+                context.pushRoute(CategoriesRoute());
               },
             ),
             ListTile(
@@ -84,9 +86,8 @@ class NavigatorDrawerComponent extends StatelessWidget {
               title:
               const Text(Strings.rooms, style: text_1F2024_16_Regular_w400),
               onTap: () {
-                Navigator.pop(context, true);
-                Navigator.push(
-                    context, AnimScaleTransition(page: const RoomsScreen()));
+                context.pop();
+                context.pushRoute(RoomsRoute());
               },
             ),
             ListTile(

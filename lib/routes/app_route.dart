@@ -34,5 +34,13 @@ class AppRouter extends $AppRouter {
           path: Paths.arViewScreen,
           page: ARViewRoute.page,
         ),
+        AutoRoute(
+          path: Paths.categoriesScreen,
+          page: CategoriesRoute.page,
+        ),
+        AutoRoute(
+          path: Paths.roomsScreen,
+          page: RoomsRoute.page,
+        ),
       ];
 }

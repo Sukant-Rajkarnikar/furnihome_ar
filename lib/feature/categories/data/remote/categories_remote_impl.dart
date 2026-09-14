@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
 import 'package:furnihome_ar/feature/categories/data/remote/categories_remote.dart';
-import 'package:furnihome_ar/feature/categories/model/category_model.dart';
+import 'package:furnihome_ar/feature/categories/data/model/category_model.dart';
 import 'package:furnihome_ar/shared/network/api_constants.dart';
 import 'package:furnihome_ar/shared/network/dio/base_list_response.dart';
 import 'package:furnihome_ar/shared/network/errors.dart';
@@ -21,24 +21,6 @@ class CategoriesRemoteImpl implements CategoriesRemote {
           json.decode(result.toString()), (data) {
         return data
             .map((response) => CategoryModel.fromJson(response))
-            .toList();
-      });
-      return notNullMapperListRest(baseResponse);
-    } on Exception catch (exception) {
-      throw FailedResponseException(exception.toString());
-    }
-  }
-
-  @override
-  Future<List<FurnitureModel>> getCategoryFurnitureList(
-      String categoryName) async {
-    try {
-      var result = await _apiClient.dio.get(ApiConstants.furnituresByCategory,
-          queryParameters: {"categoryName": categoryName});
-      var baseResponse = BaseListResponse<FurnitureModel>.fromJson(
-          json.decode(result.toString()), (data) {
-        return data
-            .map((response) => FurnitureModel.fromJson(response))
             .toList();
       });
       return notNullMapperListRest(baseResponse);

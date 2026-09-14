@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:furnihome_ar/feature/categories/model/category_model.dart';
+import 'package:furnihome_ar/feature/categories/data/model/category_model.dart';
 import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 import 'package:furnihome_ar/feature/search/data/model/search_response_model.dart';
 import 'package:furnihome_ar/shared/enums/data_state_helper.dart';

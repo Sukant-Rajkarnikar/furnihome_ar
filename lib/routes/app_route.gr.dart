@@ -9,27 +9,31 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
-import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i7;
-import 'package:furnihome_ar/common_models/furniture_model.dart' as _i8;
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:flutter/material.dart' as _i9;
+import 'package:furnihome_ar/common_models/furniture_model.dart' as _i10;
 import 'package:furnihome_ar/feature/ar_view/presentation/screens/ar_view_screen.dart'
     as _i1;
-import 'package:furnihome_ar/feature/home/presentation/screens/home_screen.dart'
+import 'package:furnihome_ar/feature/categories/presentation/screen/categories_screen.dart'
     as _i2;
-import 'package:furnihome_ar/feature/landing/splash_screen.dart' as _i5;
-import 'package:furnihome_ar/feature/product_detail/presentation/screens/product_detail_screen.dart'
+import 'package:furnihome_ar/feature/home/presentation/screens/home_screen.dart'
     as _i3;
-import 'package:furnihome_ar/feature/search/presentation/screens/search_screen.dart'
+import 'package:furnihome_ar/feature/landing/splash_screen.dart' as _i7;
+import 'package:furnihome_ar/feature/product_detail/presentation/screens/product_detail_screen.dart'
     as _i4;
+import 'package:furnihome_ar/feature/rooms/presentation/screens/rooms_screen.dart'
+    as _i5;
+import 'package:furnihome_ar/feature/search/presentation/screens/search_screen.dart'
+    as _i6;
 
-abstract class $AppRouter extends _i6.RootStackRouter {
+abstract class $AppRouter extends _i8.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i6.PageFactory> pagesMap = {
+  final Map<String, _i8.PageFactory> pagesMap = {
     ARViewRoute.name: (routeData) {
       final args = routeData.argsAs<ARViewRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i1.ARViewScreen(
           key: args.key,
@@ -37,28 +41,40 @@ abstract class $AppRouter extends _i6.RootStackRouter {
         ),
       );
     },
-    HomeRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+    CategoriesRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.HomeScreen(),
+        child: const _i2.CategoriesScreen(),
+      );
+    },
+    HomeRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i3.HomeScreen(),
       );
     },
     ProductDetailRoute.name: (routeData) {
       final args = routeData.argsAs<ProductDetailRouteArgs>();
-      return _i6.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i3.ProductDetailScreen(
+        child: _i4.ProductDetailScreen(
           key: args.key,
           product: args.product,
         ),
       );
     },
+    RoomsRoute.name: (routeData) {
+      return _i8.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i5.RoomsScreen(),
+      );
+    },
     SearchRoute.name: (routeData) {
       final args = routeData.argsAs<SearchRouteArgs>(
           orElse: () => const SearchRouteArgs());
-      return _i6.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.SearchScreen(
+        child: _i6.SearchScreen(
           key: args.key,
           initialRooms: args.initialRooms,
           initialCategories: args.initialCategories,
@@ -66,9 +82,9 @@ abstract class $AppRouter extends _i6.RootStackRouter {
       );
     },
     SplashRoute.name: (routeData) {
-      return _i6.AutoRoutePage<dynamic>(
+      return _i8.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.SplashScreen(),
+        child: const _i7.SplashScreen(),
       );
     },
   };
@@ -76,11 +92,11 @@ abstract class $AppRouter extends _i6.RootStackRouter {
 
 /// generated route for
 /// [_i1.ARViewScreen]
-class ARViewRoute extends _i6.PageRouteInfo<ARViewRouteArgs> {
+class ARViewRoute extends _i8.PageRouteInfo<ARViewRouteArgs> {
   ARViewRoute({
-    _i7.Key? key,
-    required _i8.FurnitureModel furnitureModel,
-    List<_i6.PageRouteInfo>? children,
+    _i9.Key? key,
+    required _i10.FurnitureModel furnitureModel,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
           ARViewRoute.name,
           args: ARViewRouteArgs(
@@ -92,8 +108,8 @@ class ARViewRoute extends _i6.PageRouteInfo<ARViewRouteArgs> {
 
   static const String name = 'ARViewRoute';
 
-  static const _i6.PageInfo<ARViewRouteArgs> page =
-      _i6.PageInfo<ARViewRouteArgs>(name);
+  static const _i8.PageInfo<ARViewRouteArgs> page =
+      _i8.PageInfo<ARViewRouteArgs>(name);
 }
 
 class ARViewRouteArgs {
@@ -102,9 +118,9 @@ class ARViewRouteArgs {
     required this.furnitureModel,
   });
 
-  final _i7.Key? key;
+  final _i9.Key? key;
 
-  final _i8.FurnitureModel furnitureModel;
+  final _i10.FurnitureModel furnitureModel;
 
   @override
   String toString() {
@@ -113,9 +129,23 @@ class ARViewRouteArgs {
 }
 
 /// generated route for
-/// [_i2.HomeScreen]
-class HomeRoute extends _i6.PageRouteInfo<void> {
-  const HomeRoute({List<_i6.PageRouteInfo>? children})
+/// [_i2.CategoriesScreen]
+class CategoriesRoute extends _i8.PageRouteInfo<void> {
+  const CategoriesRoute({List<_i8.PageRouteInfo>? children})
+      : super(
+          CategoriesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CategoriesRoute';
+
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i3.HomeScreen]
+class HomeRoute extends _i8.PageRouteInfo<void> {
+  const HomeRoute({List<_i8.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -123,16 +153,16 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.ProductDetailScreen]
-class ProductDetailRoute extends _i6.PageRouteInfo<ProductDetailRouteArgs> {
+/// [_i4.ProductDetailScreen]
+class ProductDetailRoute extends _i8.PageRouteInfo<ProductDetailRouteArgs> {
   ProductDetailRoute({
-    _i7.Key? key,
-    required _i8.FurnitureModel product,
-    List<_i6.PageRouteInfo>? children,
+    _i9.Key? key,
+    required _i10.FurnitureModel product,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
           ProductDetailRoute.name,
           args: ProductDetailRouteArgs(
@@ -144,8 +174,8 @@ class ProductDetailRoute extends _i6.PageRouteInfo<ProductDetailRouteArgs> {
 
   static const String name = 'ProductDetailRoute';
 
-  static const _i6.PageInfo<ProductDetailRouteArgs> page =
-      _i6.PageInfo<ProductDetailRouteArgs>(name);
+  static const _i8.PageInfo<ProductDetailRouteArgs> page =
+      _i8.PageInfo<ProductDetailRouteArgs>(name);
 }
 
 class ProductDetailRouteArgs {
@@ -154,9 +184,9 @@ class ProductDetailRouteArgs {
     required this.product,
   });
 
-  final _i7.Key? key;
+  final _i9.Key? key;
 
-  final _i8.FurnitureModel product;
+  final _i10.FurnitureModel product;
 
   @override
   String toString() {
@@ -165,13 +195,27 @@ class ProductDetailRouteArgs {
 }
 
 /// generated route for
-/// [_i4.SearchScreen]
-class SearchRoute extends _i6.PageRouteInfo<SearchRouteArgs> {
+/// [_i5.RoomsScreen]
+class RoomsRoute extends _i8.PageRouteInfo<void> {
+  const RoomsRoute({List<_i8.PageRouteInfo>? children})
+      : super(
+          RoomsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RoomsRoute';
+
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i6.SearchScreen]
+class SearchRoute extends _i8.PageRouteInfo<SearchRouteArgs> {
   SearchRoute({
-    _i7.Key? key,
+    _i9.Key? key,
     List<int>? initialRooms,
     List<int>? initialCategories,
-    List<_i6.PageRouteInfo>? children,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
           SearchRoute.name,
           args: SearchRouteArgs(
@@ -184,8 +228,8 @@ class SearchRoute extends _i6.PageRouteInfo<SearchRouteArgs> {
 
   static const String name = 'SearchRoute';
 
-  static const _i6.PageInfo<SearchRouteArgs> page =
-      _i6.PageInfo<SearchRouteArgs>(name);
+  static const _i8.PageInfo<SearchRouteArgs> page =
+      _i8.PageInfo<SearchRouteArgs>(name);
 }
 
 class SearchRouteArgs {
@@ -195,7 +239,7 @@ class SearchRouteArgs {
     this.initialCategories,
   });
 
-  final _i7.Key? key;
+  final _i9.Key? key;
 
   final List<int>? initialRooms;
 
@@ -208,9 +252,9 @@ class SearchRouteArgs {
 }
 
 /// generated route for
-/// [_i5.SplashScreen]
-class SplashRoute extends _i6.PageRouteInfo<void> {
-  const SplashRoute({List<_i6.PageRouteInfo>? children})
+/// [_i7.SplashScreen]
+class SplashRoute extends _i8.PageRouteInfo<void> {
+  const SplashRoute({List<_i8.PageRouteInfo>? children})
       : super(
           SplashRoute.name,
           initialChildren: children,
@@ -218,5 +262,5 @@ class SplashRoute extends _i6.PageRouteInfo<void> {
 
   static const String name = 'SplashRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i8.PageInfo<void> page = _i8.PageInfo<void>(name);
 }

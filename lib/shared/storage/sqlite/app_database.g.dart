@@ -195,14 +195,14 @@ class _$CategoryDao extends CategoryDao {
   }
 
   @override
-  Future<int> insert(CategoryEntity entity) {
-    return _categoryEntityInsertionAdapter.insertAndReturnId(
+  Future<void> insert(CategoryEntity entity) async {
+    await _categoryEntityInsertionAdapter.insert(
         entity, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertAllData(List<CategoryEntity> items) {
-    return _categoryEntityInsertionAdapter.insertListAndReturnIds(
+  Future<void> insertAllData(List<CategoryEntity> items) async {
+    await _categoryEntityInsertionAdapter.insertList(
         items, OnConflictStrategy.replace);
   }
 }

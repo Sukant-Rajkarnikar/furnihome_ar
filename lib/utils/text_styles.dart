@@ -128,6 +128,11 @@ const TextStyle text_1f2024_28_Bold_w800 = TextStyle(
     fontWeight: FontWeight.w800,
     fontSize: Dimens.text_size_28);
 
+const TextStyle text_1f2024_30_Semibold_w600 = TextStyle(
+    color: AppColors.black_rgba_1f2024,
+    fontWeight: FontWeight.w600,
+    fontSize: Dimens.text_size_30);
+
 const TextStyle text_8F9098_14_Regular_w400 = TextStyle(
     color: AppColors.grey_rgba_8F9098,
     fontWeight: FontWeight.w500,
@@ -205,7 +210,7 @@ const TextStyle text_7C8BA0_14_regular_w400 = TextStyle(
 
 const TextStyle text_1F2024_16_Regular_w400 = TextStyle(
     color: AppColors.black_rgba_1F2024,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w400,
     fontSize: Dimens.text_size_16);
 
 const TextStyle text_4C4C4C_16_Semibold_w400 = TextStyle(

@@ -26,21 +26,4 @@ class RoomsRemoteImpl implements RoomsRemote {
       throw FailedResponseException(exception.toString());
     }
   }
-
-  @override
-  Future<List<FurnitureModel>> getRoomFurnitureList(String roomName) async {
-    try {
-      var result = await _apiClient.dio.get(ApiConstants.furnituresByRoom,
-          queryParameters: {"roomName": roomName});
-      var baseResponse = BaseListResponse<FurnitureModel>.fromJson(
-          json.decode(result.toString()), (data) {
-        return data
-            .map((response) => FurnitureModel.fromJson(response))
-            .toList();
-      });
-      return notNullMapperListRest(baseResponse);
-    } on Exception catch (exception) {
-      throw FailedResponseException(exception.toString());
-    }
-  }
 }

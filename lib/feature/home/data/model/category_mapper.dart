@@ -1,4 +1,4 @@
-import 'package:furnihome_ar/feature/categories/model/category_model.dart';
+import 'package:furnihome_ar/feature/categories/data/model/category_model.dart';
 import 'package:furnihome_ar/shared/storage/sqlite/entity/category_entity.dart';
 
 class CategoryMapper {

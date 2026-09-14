@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
-import 'package:furnihome_ar/feature/categories/model/category_model.dart';
+import 'package:furnihome_ar/feature/categories/data/model/category_model.dart';
 import 'package:furnihome_ar/feature/home/data/home_repository.dart';
 import 'package:furnihome_ar/feature/home/data/local/home_local.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote.dart';

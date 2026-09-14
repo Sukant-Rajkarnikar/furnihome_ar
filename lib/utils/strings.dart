@@ -60,5 +60,9 @@ class Strings {
   static const String threeDModel = '3D Model';
   static const String ar = 'AR';
   static const String filter = 'Filter';
+  static const String exploreByRoom = 'Explore by Room';
+  static const String exploreByRoomText = 'Curated furniture & decor tailored for every living space.';
+  static const String exploreByCategories = 'Explore by Categories';
+  static const String exploreByCategoriesText = 'Explore our full architectural furniture catalog.';
 
 }

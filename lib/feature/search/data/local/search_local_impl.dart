@@ -1,5 +1,5 @@
 import 'package:furnihome_ar/di/service_locator.dart';
-import 'package:furnihome_ar/feature/categories/model/category_model.dart';
+import 'package:furnihome_ar/feature/categories/data/model/category_model.dart';
 import 'package:furnihome_ar/feature/home/data/model/category_mapper.dart';
 import 'package:furnihome_ar/feature/home/data/model/room_mapper.dart';
 import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
