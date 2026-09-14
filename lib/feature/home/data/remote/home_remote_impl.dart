@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
+import 'package:furnihome_ar/feature/categories/model/category_model.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote.dart';
-import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
+import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 import 'package:furnihome_ar/shared/network/api_constants.dart';
 import 'package:furnihome_ar/shared/network/dio/base_list_response.dart';
 import 'package:furnihome_ar/shared/network/errors.dart';
@@ -74,4 +76,21 @@ class HomeRemoteImpl implements HomeRemote {
       throw FailedResponseException(exception.toString());
     }
   }
+
+  @override
+  Future<List<CategoryModel>> getCategoryList() async{
+    try {
+      var result = await _apiClient.dio.get(ApiConstants.categories);
+      debugPrint(result.toString());
+      var baseResponse = BaseListResponse<CategoryModel>.fromJson(
+          json.decode(result.toString()), (data) {
+        return data.map((response) => CategoryModel.fromJson(response)).toList();
+      });
+      return notNullMapperListRest(baseResponse);
+    } on Exception catch (exception) {
+      debugPrint(exception.toString());
+      throw FailedResponseException(exception.toString());
+    }
+  }
+
 }

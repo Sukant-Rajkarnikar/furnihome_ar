@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
 import 'package:furnihome_ar/feature/rooms/data/remote/rooms_remote.dart';
-import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
+import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 import 'package:furnihome_ar/shared/network/api_constants.dart';
 import 'package:furnihome_ar/shared/network/dio/base_list_response.dart';
 import 'package:furnihome_ar/shared/network/errors.dart';

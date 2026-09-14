@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/feature/home/presentation/provider/home_screen_state_provider.dart';
 import 'package:furnihome_ar/feature/home/presentation/provider/state/home_screen_state.dart';
-import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
+import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 import 'package:furnihome_ar/routes/app_route.gr.dart';
 import 'package:furnihome_ar/shared/enums/data_state_helper.dart';
 import 'package:furnihome_ar/utils/colors.dart';
@@ -129,7 +129,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         InkWell(
           child: const Icon(Icons.search),
           onTap: () {
-            context.pushRoute(const SearchRoute());
+            context.pushRoute( SearchRoute());
           },
         )
       ],

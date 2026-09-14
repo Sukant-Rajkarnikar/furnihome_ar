@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
-import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
+import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 import 'package:furnihome_ar/shared/enums/data_state_helper.dart';
 
 class HomeScreenState extends Equatable {

@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
+import 'package:furnihome_ar/feature/categories/model/category_model.dart';
 import 'package:furnihome_ar/feature/home/data/home_repository.dart';
 import 'package:furnihome_ar/feature/home/data/local/home_local.dart';
 import 'package:furnihome_ar/feature/home/data/remote/home_remote.dart';
-import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
+import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemote remote = locator<HomeRemote>();
@@ -25,7 +27,12 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<List<RoomModel>> getRoomList() async {
-    return await remote.getRoomList();
+  Future<List<RoomModel>> saveRoomCategoryData() async {
+    List<RoomModel> rooms = await remote.getRoomList();
+    List<CategoryModel> categories = await remote.getCategoryList();
+    debugPrint("Here1");
+    await local.saveRoomsCategories(rooms, categories);
+    debugPrint("Here2");
+    return rooms;
   }
 }

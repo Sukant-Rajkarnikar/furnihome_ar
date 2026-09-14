@@ -54,9 +54,15 @@ abstract class $AppRouter extends _i6.RootStackRouter {
       );
     },
     SearchRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchRouteArgs>(
+          orElse: () => const SearchRouteArgs());
       return _i6.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.SearchScreen(),
+        child: _i4.SearchScreen(
+          key: args.key,
+          initialRooms: args.initialRooms,
+          initialCategories: args.initialCategories,
+        ),
       );
     },
     SplashRoute.name: (routeData) {
@@ -160,16 +166,45 @@ class ProductDetailRouteArgs {
 
 /// generated route for
 /// [_i4.SearchScreen]
-class SearchRoute extends _i6.PageRouteInfo<void> {
-  const SearchRoute({List<_i6.PageRouteInfo>? children})
-      : super(
+class SearchRoute extends _i6.PageRouteInfo<SearchRouteArgs> {
+  SearchRoute({
+    _i7.Key? key,
+    List<int>? initialRooms,
+    List<int>? initialCategories,
+    List<_i6.PageRouteInfo>? children,
+  }) : super(
           SearchRoute.name,
+          args: SearchRouteArgs(
+            key: key,
+            initialRooms: initialRooms,
+            initialCategories: initialCategories,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SearchRoute';
 
-  static const _i6.PageInfo<void> page = _i6.PageInfo<void>(name);
+  static const _i6.PageInfo<SearchRouteArgs> page =
+      _i6.PageInfo<SearchRouteArgs>(name);
+}
+
+class SearchRouteArgs {
+  const SearchRouteArgs({
+    this.key,
+    this.initialRooms,
+    this.initialCategories,
+  });
+
+  final _i7.Key? key;
+
+  final List<int>? initialRooms;
+
+  final List<int>? initialCategories;
+
+  @override
+  String toString() {
+    return 'SearchRouteArgs{key: $key, initialRooms: $initialRooms, initialCategories: $initialCategories}';
+  }
 }
 
 /// generated route for

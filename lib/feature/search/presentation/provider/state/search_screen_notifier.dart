@@ -20,6 +20,8 @@ class SearchScreenNotifier extends StateNotifier<SearchScreenState> {
       final response =
       await _repository.searchFurniture(rooms, categories, search, offset);
 
+      if (!mounted) return;
+
       if (offset > 0 && state.searchResponse != null) {
         response.products = [
           ...state.searchResponse!.products,
@@ -30,6 +32,25 @@ class SearchScreenNotifier extends StateNotifier<SearchScreenState> {
       state = state.copyWith(
           state: DataConcreteState.loaded, searchList: response);
     } catch (e) {
+      if (!mounted) return;
+      state = state.copyWith(
+          state: DataConcreteState.failure, message: parseError(e));
+    }
+  }
+
+  Future<void> getRoomsAndCategories() async {
+    try {
+      final rooms = await _repository.getRooms();
+      final categories = await _repository.getCategories();
+
+      if (!mounted) return;
+
+      state = state.copyWith(
+        rooms: rooms,
+        categories: categories,
+      );
+    } catch (e) {
+      if (!mounted) return;
       state = state.copyWith(
           state: DataConcreteState.failure, message: parseError(e));
     }

@@ -3,11 +3,12 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:furnihome_ar/common_models/furniture_model.dart';
 import 'package:furnihome_ar/feature/search/presentation/provider/search_screen_state_provider.dart';
 import 'package:furnihome_ar/feature/search/presentation/provider/state/search_screen_state.dart';
+import 'package:furnihome_ar/feature/search/presentation/screens/widget/search_filter_bottomsheet.dart';
+import 'package:furnihome_ar/routes/app_route.gr.dart';
 import 'package:furnihome_ar/shared/enums/data_state_helper.dart';
 import 'package:furnihome_ar/shared/widget/custom_text_field.dart';
 import 'package:furnihome_ar/utils/colors.dart';
@@ -20,15 +21,22 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 @RoutePage()
 class SearchScreen extends ConsumerStatefulWidget {
-  const SearchScreen({super.key});
+  final List<int>? initialRooms;
+  final List<int>? initialCategories;
+
+  const SearchScreen({
+    super.key,
+    this.initialRooms,
+    this.initialCategories,
+  });
 
   @override
   ConsumerState<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
-  final List<int> _rooms = [];
-  final List<int> _categories = [];
+  late List<int> _rooms;
+  late List<int> _categories;
   int _offset = 0;
 
   final RefreshController _refreshController = RefreshController();
@@ -39,7 +47,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   void initState() {
     super.initState();
+
+    _rooms = widget.initialRooms != null ? List.from(widget.initialRooms!) : [];
+    _categories = widget.initialCategories != null
+        ? List.from(widget.initialCategories!)
+        : [];
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(searchStateNotifierProvider.notifier).getRoomsAndCategories();
       _fetchData(isLoadMore: false);
     });
   }
@@ -54,15 +69,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   void _fetchData({bool isLoadMore = false}) {
     if (!isLoadMore) {
       _offset = 0;
-      // Invalidate the provider to clear the old state and results
-      // before starting a completely fresh search.
       ref.invalidate(searchStateNotifierProvider);
+      ref.read(searchStateNotifierProvider.notifier).getRoomsAndCategories();
     } else {
-      final currentProductsCount = ref.read(searchStateNotifierProvider).searchResponse?.products.length ?? 0;
+      final currentProductsCount = ref
+          .read(searchStateNotifierProvider)
+          .searchResponse
+          ?.products
+          .length ??
+          0;
       _offset = currentProductsCount;
     }
 
-    // Call the notifier (which will be a fresh instance if invalidated above)
     ref.read(searchStateNotifierProvider.notifier).searchFurniture(
       _rooms,
       _categories,
@@ -124,7 +142,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.spacing_16),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacing_16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -138,36 +157,66 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                       ),
                       addHorizontalSpace(Dimens.spacing_16),
-                      Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
-                                blurRadius: 2,
-                                blurStyle: BlurStyle.normal,
-                                offset: const Offset(0, 1)),
-                          ],
-                          borderRadius: BorderRadius.circular(Dimens.spacing_12),
-                          color: const AppColors().primaryColor,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: Dimens.spacing_10,
-                              horizontal: Dimens.spacing_16),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(
-                                Icons.tune_rounded,
-                                color: AppColors.white_rbga_ffffff,
-                                size: Dimens.spacing_24,
-                              ),
-                              addHorizontalSpace(Dimens.spacing_8),
-                              Text(
-                                Strings.filter.toUpperCase(),
-                                style: text_ffffff_14_Semibold_w600,
-                              ),
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            constraints: BoxConstraints(
+                                maxHeight: MediaQuery.heightOf(context) * 0.85),
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (context) {
+                              return searchFilterBottomSheet(
+                                context,
+                                rooms: state.rooms ?? [],
+                                categories: state.categories ?? [],
+                                selectedRoomIds: _rooms,
+                                selectedCategoryIds: _categories,
+                                onApply: (selectedRooms, selectedCategories) {
+                                  setState(() {
+                                    _rooms = selectedRooms;
+                                    _categories = selectedCategories;
+                                  });
+                                  _fetchData(isLoadMore: false);
+                                },
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color:
+                                  AppColors.grey_rgba_4C4C4C.withAlpha(30),
+                                  blurRadius: 2,
+                                  blurStyle: BlurStyle.normal,
+                                  offset: const Offset(0, 1)),
                             ],
+                            borderRadius:
+                            BorderRadius.circular(Dimens.spacing_12),
+                            color: const AppColors().primaryColor,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: Dimens.spacing_10,
+                                horizontal: Dimens.spacing_16),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.tune_rounded,
+                                  color: AppColors.white_rbga_ffffff,
+                                  size: Dimens.spacing_24,
+                                ),
+                                addHorizontalSpace(Dimens.spacing_8),
+                                Text(
+                                  Strings.filter.toUpperCase(),
+                                  style: text_ffffff_14_Semibold_w600,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -178,12 +227,13 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 if (_rooms.isNotEmpty || _categories.isNotEmpty) ...[
                   Padding(
                     padding: const EdgeInsets.only(left: Dimens.spacing_16),
-                    child: _filterList(),
+                    child: _filterList(state),
                   ),
                   addVerticalSpace(Dimens.spacing_16),
                 ],
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.spacing_16),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacing_16),
                   child: Divider(
                     height: Dimens.spacing_0_3,
                     color: AppColors.black_rgba_e0e0e0.withAlpha(150),
@@ -197,7 +247,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     onLoading: _onLoading,
                     controller: _refreshController,
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(vertical: Dimens.spacing_16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: Dimens.spacing_16),
                       child: _buildBody(state),
                     ),
                   ),
@@ -254,7 +305,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: Dimens.spacing_2),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: Dimens.spacing_2),
                   child: Row(
                     children: [
                       GestureDetector(
@@ -272,7 +324,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                           padding: const EdgeInsets.all(Dimens.spacing_4),
                           child: !_isGridView
                               ? _buildActiveToggleIcon(Icons.table_rows_rounded)
-                              : _buildInactiveToggleIcon(Icons.table_rows_rounded),
+                              : _buildInactiveToggleIcon(
+                              Icons.table_rows_rounded),
                         ),
                       ),
                     ],
@@ -305,7 +358,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: products.length,
-            separatorBuilder: (context, index) => addVerticalSpace(Dimens.spacing_16),
+            separatorBuilder: (context, index) =>
+                addVerticalSpace(Dimens.spacing_16),
             itemBuilder: (context, index) {
               final item = products[index];
               return _listViewItem(item);
@@ -368,8 +422,10 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
-  Widget _filterList() {
+  Widget _filterList(SearchScreenState state) {
     final int totalFilters = _rooms.length + _categories.length;
+    final availableRooms = state.rooms ?? [];
+    final availableCategories = state.categories ?? [];
 
     return SizedBox(
       height: Dimens.spacing_36,
@@ -377,13 +433,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         padding: const EdgeInsets.only(right: Dimens.spacing_16),
         scrollDirection: Axis.horizontal,
         itemCount: totalFilters,
-        separatorBuilder: (context, index) => addHorizontalSpace(Dimens.spacing_8),
+        separatorBuilder: (context, index) =>
+            addHorizontalSpace(Dimens.spacing_8),
         itemBuilder: (context, index) {
           String filterText = "";
+
           if (index < _rooms.length) {
-            filterText = "Room ID: ${_rooms[index]}";
+            final roomId = _rooms[index];
+            final room = availableRooms.cast<dynamic>().firstWhere(
+                    (r) => r.id == roomId,
+                orElse: () => null
+            );
+            filterText = room != null ? room.title : "Room ID: $roomId";
           } else {
-            filterText = "Category ID: ${_categories[index - _rooms.length]}";
+            final catId = _categories[index - _rooms.length];
+            final category = availableCategories.cast<dynamic>().firstWhere(
+                    (c) => c.id == catId,
+                orElse: () => null
+            );
+            filterText = category != null ? category.categoryName : "Category ID: $catId";
           }
 
           return Container(
@@ -428,280 +496,297 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   }
 
   Widget _listViewItem(FurnitureModel item) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Dimens.spacing_16),
-        color: AppColors.white_rbga_ffffff,
-        boxShadow: [
-          BoxShadow(
-              color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
-              blurRadius: 2,
-              blurStyle: BlurStyle.normal,
-              offset: const Offset(0, 1)),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(Dimens.spacing_16),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimens.spacing_16),
-                boxShadow: [
-                  BoxShadow(
-                      color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
-                      blurRadius: 2,
-                      blurStyle: BlurStyle.normal,
-                      offset: const Offset(0, 1)),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimens.spacing_16),
-                    child: SizedBox(
-                      height: Dimens.spacing_132,
-                      width: Dimens.spacing_132,
-                      child: CachedNetworkImage(
-                        fit: BoxFit.cover,
-                        imageUrl: item.imageNames ?? "",
+    return InkWell(
+      onTap: () {
+        context.pushRoute(ProductDetailRoute(product: item));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Dimens.spacing_16),
+          color: AppColors.white_rbga_ffffff,
+          boxShadow: [
+            BoxShadow(
+                color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
+                blurRadius: 2,
+                blurStyle: BlurStyle.normal,
+                offset: const Offset(0, 1)),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(Dimens.spacing_16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimens.spacing_16),
+                  boxShadow: [
+                    BoxShadow(
+                        color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
+                        blurRadius: 2,
+                        blurStyle: BlurStyle.normal,
+                        offset: const Offset(0, 1)),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(Dimens.spacing_16),
+                      child: SizedBox(
+                        height: Dimens.spacing_132,
+                        width: Dimens.spacing_132,
+                        child: CachedNetworkImage(
+                          fit: BoxFit.cover,
+                          imageUrl: item.imageNames ?? "",
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimens.spacing_8),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimens.spacing_20),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                              BorderRadius.circular(Dimens.spacing_20),
-                              border: BoxBorder.all(
-                                  color: AppColors.white_rbga_ffffff
-                                      .withAlpha(200)),
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppColors.white_rbga_ffffff.withAlpha(200),
-                                  AppColors.white_rbga_ffffff.withAlpha(100),
-                                ],
-                                begin: AlignmentGeometry.bottomRight,
-                                end: AlignmentGeometry.topLeft,
+                    Positioned(
+                      right: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(Dimens.spacing_8),
+                        child: ClipRRect(
+                          borderRadius:
+                          BorderRadius.circular(Dimens.spacing_20),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                BorderRadius.circular(Dimens.spacing_20),
+                                border: BoxBorder.all(
+                                    color: AppColors.white_rbga_ffffff
+                                        .withAlpha(200)),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.white_rbga_ffffff.withAlpha(200),
+                                    AppColors.white_rbga_ffffff.withAlpha(100),
+                                  ],
+                                  begin: AlignmentGeometry.bottomRight,
+                                  end: AlignmentGeometry.topLeft,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: Dimens.spacing_6,
-                                  vertical: Dimens.spacing_2),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.view_in_ar_rounded,
-                                    color: const AppColors().primaryColor,
-                                    shadows: [
-                                      Shadow(
-                                        color: AppColors.white_rbga_ffffff
-                                            .withAlpha(200),
-                                        blurRadius: 10.0,
-                                        offset: const Offset(0, 1),
-                                      ),
-                                    ],
-                                    size: Dimens.spacing_14,
-                                  ),
-                                  addHorizontalSpace(Dimens.spacing_4),
-                                  Text(
-                                    Strings.ar.toUpperCase(),
-                                    style: text_7b44c0_12_Medium_w600
-                                        .copyWith(shadows: [
-                                      Shadow(
-                                        color: AppColors.white_rbga_ffffff
-                                            .withAlpha(200),
-                                        blurRadius: 10.0,
-                                        offset: const Offset(0, 1),
-                                      ),
-                                    ]),
-                                  )
-                                ],
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: Dimens.spacing_6,
+                                    vertical: Dimens.spacing_2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.view_in_ar_rounded,
+                                      color: const AppColors().primaryColor,
+                                      shadows: [
+                                        Shadow(
+                                          color: AppColors.white_rbga_ffffff
+                                              .withAlpha(200),
+                                          blurRadius: 10.0,
+                                          offset: const Offset(0, 1),
+                                        ),
+                                      ],
+                                      size: Dimens.spacing_14,
+                                    ),
+                                    addHorizontalSpace(Dimens.spacing_4),
+                                    Text(
+                                      Strings.ar.toUpperCase(),
+                                      style: text_7b44c0_12_Medium_w600
+                                          .copyWith(shadows: [
+                                        Shadow(
+                                          color: AppColors.white_rbga_ffffff
+                                              .withAlpha(200),
+                                          blurRadius: 10.0,
+                                          offset: const Offset(0, 1),
+                                        ),
+                                      ]),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
+                    )
+                  ],
+                ),
+              ),
+              addHorizontalSpace(Dimens.spacing_18),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title ?? "N/A",
+                      style: text_1F2024_18_Semibold_w600,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  )
-                ],
-              ),
-            ),
-            addHorizontalSpace(Dimens.spacing_18),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.title ?? "N/A",
-                    style: text_1F2024_18_Semibold_w600,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  addVerticalSpace(Dimens.spacing_2),
-                  Text(
-                    item.dimensions ?? "No Dimensions available",
-                    style: text_2F3036_14_semibold_w600,
-                  ),
-                  addVerticalSpace(Dimens.spacing_10),
-                  Row(
-                    children: [
-                      Text(
-                        item.category ?? "No Category",
-                        style: text_71727a_14_regular_w400,
-                      ),
-                      addHorizontalSpace(Dimens.spacing_4),
-                      const Text("•", style: text_71727a_14_regular_w400),
-                      addHorizontalSpace(Dimens.spacing_4),
-                      Text(item.room ?? "No Room", style: text_71727a_14_regular_w400),
-                    ],
-                  ),
-                  addVerticalSpace(Dimens.spacing_8),
-                  Text(
-                    "\$${item.price ?? ''}",
-                    style: text_7b44c0_18_semibold_w600,
-                  ),
-                  addVerticalSpace(Dimens.spacing_8),
-                ],
-              ),
-            )
-          ],
+                    addVerticalSpace(Dimens.spacing_2),
+                    Text(
+                      item.dimensions ?? "No Dimensions available",
+                      style: text_2F3036_14_semibold_w600,
+                    ),
+                    addVerticalSpace(Dimens.spacing_10),
+                    Row(
+                      children: [
+                        Text(
+                          item.category ?? "No Category",
+                          style: text_71727a_14_regular_w400,
+                        ),
+                        addHorizontalSpace(Dimens.spacing_4),
+                        const Text("•", style: text_71727a_14_regular_w400),
+                        addHorizontalSpace(Dimens.spacing_4),
+                        Text(item.room ?? "No Room",
+                            style: text_71727a_14_regular_w400),
+                      ],
+                    ),
+                    addVerticalSpace(Dimens.spacing_8),
+                    Text(
+                      "\$${item.price ?? ''}",
+                      style: text_7b44c0_18_semibold_w600,
+                    ),
+                    addVerticalSpace(Dimens.spacing_8),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _gridViewItem(FurnitureModel item) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Dimens.spacing_16),
-        color: AppColors.white_rbga_ffffff,
-        boxShadow: [
-          BoxShadow(
-              color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
-              blurRadius: 2,
-              blurStyle: BlurStyle.normal,
-              offset: const Offset(0, 1)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(Dimens.spacing_16),
-                  topRight: Radius.circular(Dimens.spacing_16),
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: Dimens.spacing_132,
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: item.imageNames ?? "",
+    return InkWell(
+      onTap: () {
+        context.pushRoute(ProductDetailRoute(product: item));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(Dimens.spacing_16),
+          color: AppColors.white_rbga_ffffff,
+          boxShadow: [
+            BoxShadow(
+                color: AppColors.grey_rgba_4C4C4C.withAlpha(30),
+                blurRadius: 2,
+                blurStyle: BlurStyle.normal,
+                offset: const Offset(0, 1)),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(Dimens.spacing_16),
+                    topRight: Radius.circular(Dimens.spacing_16),
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: Dimens.spacing_132,
+                    child: CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: item.imageNames ?? "",
+                    ),
                   ),
                 ),
-              ),
-              Positioned(
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(Dimens.spacing_8),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(Dimens.spacing_20),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(Dimens.spacing_20),
-                          border: BoxBorder.all(
-                              color: AppColors.white_rbga_ffffff.withAlpha(200)),
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.white_rbga_ffffff.withAlpha(200),
-                              AppColors.white_rbga_ffffff.withAlpha(100),
-                            ],
-                            begin: AlignmentGeometry.bottomRight,
-                            end: AlignmentGeometry.topLeft,
+                Positioned(
+                  right: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(Dimens.spacing_8),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(Dimens.spacing_20),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.circular(Dimens.spacing_20),
+                            border: BoxBorder.all(
+                                color:
+                                AppColors.white_rbga_ffffff.withAlpha(200)),
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors.white_rbga_ffffff.withAlpha(200),
+                                AppColors.white_rbga_ffffff.withAlpha(100),
+                              ],
+                              begin: AlignmentGeometry.bottomRight,
+                              end: AlignmentGeometry.topLeft,
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimens.spacing_6,
-                              vertical: Dimens.spacing_2),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.view_in_ar_rounded,
-                                color: const AppColors().primaryColor,
-                                shadows: [
-                                  Shadow(
-                                    color: AppColors.white_rbga_ffffff.withAlpha(200),
-                                    blurRadius: 10.0,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ],
-                                size: Dimens.spacing_16,
-                              ),
-                              addHorizontalSpace(Dimens.spacing_4),
-                              Text(
-                                Strings.ar.toUpperCase(),
-                                style: text_7b44c0_14_Medium_w600.copyWith(shadows: [
-                                  Shadow(
-                                    color: AppColors.white_rbga_ffffff.withAlpha(200),
-                                    blurRadius: 10.0,
-                                    offset: const Offset(0, 1),
-                                  ),
-                                ]),
-                              )
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: Dimens.spacing_6,
+                                vertical: Dimens.spacing_2),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.view_in_ar_rounded,
+                                  color: const AppColors().primaryColor,
+                                  shadows: [
+                                    Shadow(
+                                      color: AppColors.white_rbga_ffffff
+                                          .withAlpha(200),
+                                      blurRadius: 10.0,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ],
+                                  size: Dimens.spacing_16,
+                                ),
+                                addHorizontalSpace(Dimens.spacing_4),
+                                Text(
+                                  Strings.ar.toUpperCase(),
+                                  style: text_7b44c0_14_Medium_w600
+                                      .copyWith(shadows: [
+                                    Shadow(
+                                      color: AppColors.white_rbga_ffffff
+                                          .withAlpha(200),
+                                      blurRadius: 10.0,
+                                      offset: const Offset(0, 1),
+                                    ),
+                                  ]),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-          addVerticalSpace(Dimens.spacing_4),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: Dimens.spacing_12, vertical: Dimens.spacing_8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title ?? "N/A",
-                  style: text_1F2024_18_Semibold_w600,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                addVerticalSpace(Dimens.spacing_6),
-                Text(
-                  item.dimensions ?? "No Dimensions available",
-                  style: text_2F3036_14_semibold_w600,
-                ),
-                addVerticalSpace(Dimens.spacing_8),
-                Text(
-                  "\$${item.price ?? 'N/A'}",
-                  style: text_7b44c0_18_semibold_w600,
                 )
               ],
             ),
-          ),
-          addVerticalSpace(Dimens.spacing_8),
-        ],
+            addVerticalSpace(Dimens.spacing_4),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimens.spacing_12, vertical: Dimens.spacing_8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.title ?? "N/A",
+                    style: text_1F2024_18_Semibold_w600,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  addVerticalSpace(Dimens.spacing_6),
+                  Text(
+                    item.dimensions ?? "No Dimensions available",
+                    style: text_2F3036_14_semibold_w600,
+                  ),
+                  addVerticalSpace(Dimens.spacing_8),
+                  Text(
+                    "\$${item.price ?? 'N/A'}",
+                    style: text_7b44c0_18_semibold_w600,
+                  )
+                ],
+              ),
+            ),
+            addVerticalSpace(Dimens.spacing_8),
+          ],
+        ),
       ),
     );
   }

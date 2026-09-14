@@ -16,7 +16,7 @@ class HomeScreenNotifier extends StateNotifier<HomeScreenState> {
       final featuredProducts = await _repository.getFeaturedProducts();
       final newProducts = await _repository.getNewProducts();
       final arProducts = await _repository.getArProducts();
-      final roomList = await _repository.getRoomList();
+      final roomList = await _repository.saveRoomCategoryData();
       state = state.copyWith(
           state: DataConcreteState.loaded,
           featuredProducts: featuredProducts,

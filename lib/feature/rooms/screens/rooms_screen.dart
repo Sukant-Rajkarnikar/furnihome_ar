@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:furnihome_ar/anim/anim_scale_transition.dart';
 import 'package:furnihome_ar/di/service_locator.dart';
-import 'package:furnihome_ar/feature/rooms/model/rooms_model.dart';
+import 'package:furnihome_ar/feature/rooms/data/model/rooms_model.dart';
 import 'package:furnihome_ar/feature/rooms/screens/room_result_screen.dart';
 import 'package:furnihome_ar/feature/rooms/screens/rooms_viewmodel.dart';
 import 'package:furnihome_ar/utils/colors.dart';
