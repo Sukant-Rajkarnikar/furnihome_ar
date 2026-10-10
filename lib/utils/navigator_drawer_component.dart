@@ -44,9 +44,9 @@ class NavigatorDrawerComponent extends StatelessWidget {
                           height: Dimens.spacing_164,
                           width: Dimens.spacing_164,
                           child: ClipRRect(
-                            child: Image.asset(ImageConstants.IC_APP_LOGO),
                             borderRadius:
                             BorderRadius.circular(Dimens.spacing_10),
+                            child: Image.asset(ImageConstants.IC_APP_LOGO),
                           ),
                         ),
                       ),
@@ -78,7 +78,7 @@ class NavigatorDrawerComponent extends StatelessWidget {
                   style: text_1F2024_16_Regular_w400),
               onTap: () {
                 context.pop();
-                context.pushRoute(CategoriesRoute());
+                context.pushRoute(const CategoriesRoute());
               },
             ),
             ListTile(
@@ -87,7 +87,7 @@ class NavigatorDrawerComponent extends StatelessWidget {
               const Text(Strings.rooms, style: text_1F2024_16_Regular_w400),
               onTap: () {
                 context.pop();
-                context.pushRoute(RoomsRoute());
+                context.pushRoute(const RoomsRoute());
               },
             ),
             ListTile(
@@ -95,9 +95,8 @@ class NavigatorDrawerComponent extends StatelessWidget {
               title: const Text(Strings.search,
                   style: text_1F2024_16_Regular_w400),
               onTap: () {
-                // Navigator.pop(context, true);
-                // Navigator.push(
-                //     context, AnimScaleTransition(page: const SearchScreen()));
+                context.pop();
+                context.pushRoute(SearchRoute());
               },
             ),
           ],

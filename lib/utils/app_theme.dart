@@ -11,8 +11,9 @@ class AppTheme {
     return ThemeData(
         fontFamily: 'HankenGrotesk',
         primaryColor: colors.backGroundColor,
-        scaffoldBackgroundColor: colors.backGroundColor,
+        scaffoldBackgroundColor: colors.secondaryColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        appBarTheme: const AppBarTheme(scrolledUnderElevation: 0, backgroundColor: Colors.transparent,),
         colorScheme: ColorScheme.fromSwatch()
             .copyWith(secondary: colors.secondaryColor)
             .copyWith(surface: colors.backGroundColor));

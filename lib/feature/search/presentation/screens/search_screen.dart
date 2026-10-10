@@ -627,6 +627,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     ),
                     addVerticalSpace(Dimens.spacing_10),
                     Row(
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
                           item.category ?? "No Category",
