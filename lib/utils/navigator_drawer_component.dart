@@ -1,8 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:furnihome_ar/anim/anim_scale_transition.dart';
-import 'package:furnihome_ar/feature/categories/screens/categories_screen.dart';
-import 'package:furnihome_ar/feature/rooms/screens/rooms_screen.dart';
 import 'package:furnihome_ar/routes/app_route.gr.dart';
 import 'package:furnihome_ar/routes/route_util.dart';
 import 'package:furnihome_ar/utils/colors.dart';
