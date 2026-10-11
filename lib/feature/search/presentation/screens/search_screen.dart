@@ -538,6 +538,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         child: CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: item.imageNames ?? "",
+                          placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
                         ),
                       ),
                     ),
@@ -689,6 +690,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     child: CachedNetworkImage(
                       fit: BoxFit.cover,
                       imageUrl: item.imageNames ?? "",
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
                     ),
                   ),
                 ),

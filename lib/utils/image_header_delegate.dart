@@ -31,20 +31,24 @@ class ImageHeaderDelegate extends SliverPersistentHeaderDelegate {
     return SizedBox.expand(
       child: is3DModelActive
           ? ModelViewer(
-        loading: Loading.lazy,
-        backgroundColor:  AppColors.grey_rgba_F0F2F5,
-        poster: ImageConstants.IC_Banner_1,
-        src: arUrl,
-        alt: "3D furniture model",
-        ar: false,
-        autoRotate: true,
-        cameraControls: true,
-        disableZoom: true,
-      )
+              loading: Loading.lazy,
+              backgroundColor: AppColors.grey_rgba_F0F2F5,
+              poster: ImageConstants.IC_Banner_1,
+              src: arUrl,
+              alt: "3D furniture model",
+              ar: false,
+              autoRotate: true,
+              cameraControls: true,
+              disableZoom: true,
+            )
           : CachedNetworkImage(
-        imageUrl: imageUrl,
-        fit: BoxFit.cover,
-      ),
+              imageUrl: imageUrl,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.purple_rgba_5400bf,
+              )),
+            ),
     );
   }
 

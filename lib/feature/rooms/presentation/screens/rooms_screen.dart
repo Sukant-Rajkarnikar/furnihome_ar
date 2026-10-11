@@ -30,15 +30,12 @@ class _RoomsScreenState extends ConsumerState<RoomsScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => ref
-        .read(roomsStateNotifierProvider.notifier)
-        .getRoomsScreenData());
+    Future.microtask(() =>
+        ref.read(roomsStateNotifierProvider.notifier).getRoomsScreenData());
   }
 
   void _onRefresh() {
-    ref
-        .read(roomsStateNotifierProvider.notifier)
-        .getRoomsScreenData();
+    ref.read(roomsStateNotifierProvider.notifier).getRoomsScreenData();
   }
 
   @override
@@ -159,6 +156,10 @@ class _RoomsScreenState extends ConsumerState<RoomsScreen> {
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(
+                    color: AppColors.purple_rgba_5400bf,
+                  )),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -166,9 +167,9 @@ class _RoomsScreenState extends ConsumerState<RoomsScreen> {
                           begin: AlignmentGeometry.bottomCenter,
                           end: AlignmentGeometry.center,
                           colors: [
-                            AppColors.black_rgba_1F2024.withAlpha(220),
-                            AppColors.black_rgba_1F2024.withAlpha(30)
-                          ])),
+                        AppColors.black_rgba_1F2024.withAlpha(220),
+                        AppColors.black_rgba_1F2024.withAlpha(30)
+                      ])),
                 ),
                 Positioned(
                     bottom: 0,

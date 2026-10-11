@@ -159,6 +159,7 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
                 ),
                 Container(
                   decoration: BoxDecoration(

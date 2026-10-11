@@ -129,7 +129,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         InkWell(
           child: const Icon(Icons.search),
           onTap: () {
-            context.pushRoute( SearchRoute());
+            context.pushRoute(SearchRoute());
           },
         )
       ],
@@ -192,6 +192,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               CachedNetworkImage(
                 imageUrl: furniture.imageNames ?? "",
                 fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -268,8 +270,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(Dimens.spacing_2),
                 child: ClipOval(
-                    child: CachedNetworkImage(
-                        imageUrl: room.imageName, fit: BoxFit.cover)),
+                  child: CachedNetworkImage(
+                    imageUrl: room.imageName,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(
+                      color: AppColors.purple_rgba_5400bf,
+                    )),
+                  ),
+                ),
               ),
             ),
           ),
@@ -322,6 +331,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: CachedNetworkImage(
                   imageUrl: furniture.imageNames ?? "",
                   fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
                 ),
               ),
               Padding(
@@ -376,6 +387,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               CachedNetworkImage(
                 imageUrl: arFurniture.imageNames ?? "",
                 fit: BoxFit.cover,
+                placeholder: (context, url) =>
+                    const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
               ),
               Container(
                 decoration: BoxDecoration(
