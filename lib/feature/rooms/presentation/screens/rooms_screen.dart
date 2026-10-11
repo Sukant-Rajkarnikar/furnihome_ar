@@ -156,10 +156,25 @@ class _RoomsScreenState extends ConsumerState<RoomsScreen> {
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(
-                    color: AppColors.purple_rgba_5400bf,
-                  )),
+                  memCacheWidth: 600,
+                  maxWidthDiskCache: 600,
+                  fadeInDuration: const Duration(milliseconds: 300),
+                  placeholder: (context, url) => Container(
+                    color: AppColors.grey_rgba_F0F2F5,
+                    child: const Center(
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.purple_rgba_5400bf,),
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: AppColors.grey_rgba_F0F2F5,
+                    child: const Center(
+                      child: Icon(Icons.image_not_supported, color: Colors.grey),
+                    ),
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(

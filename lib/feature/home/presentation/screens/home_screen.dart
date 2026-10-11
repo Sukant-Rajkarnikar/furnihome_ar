@@ -192,8 +192,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               CachedNetworkImage(
                 imageUrl: furniture.imageNames ?? "",
                 fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
+                memCacheWidth: 800,
+                maxWidthDiskCache: 800,
+                fadeInDuration: const Duration(milliseconds: 300),
+                placeholder: (context, url) => Container(
+                  color: AppColors.grey_rgba_F0F2F5,
+                  child: const Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.purple_rgba_5400bf,),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: AppColors.grey_rgba_F0F2F5,
+                  child: const Center(
+                    child: Icon(Icons.image_not_supported, color: Colors.grey),
+                  ),
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -273,10 +290,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: CachedNetworkImage(
                     imageUrl: room.imageName,
                     fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(
-                      color: AppColors.purple_rgba_5400bf,
-                    )),
+                    memCacheWidth: 300,
+                    maxWidthDiskCache: 300,
+                    fadeInDuration: const Duration(milliseconds: 300),
+                    placeholder: (context, url) => Container(
+                      color: AppColors.grey_rgba_F0F2F5,
+                      child: const Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.purple_rgba_5400bf,),
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      color: AppColors.grey_rgba_F0F2F5,
+                      child: const Center(
+                        child: Icon(Icons.image_not_supported, color: Colors.grey),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -331,8 +363,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 child: CachedNetworkImage(
                   imageUrl: furniture.imageNames ?? "",
                   fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
+                  memCacheWidth: 400,
+                  maxWidthDiskCache: 400,
+                  fadeInDuration: const Duration(milliseconds: 300),
+                  placeholder: (context, url) => Container(
+                    color: AppColors.grey_rgba_F0F2F5,
+                    child: const Center(
+                      child: SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.purple_rgba_5400bf,),
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: AppColors.grey_rgba_F0F2F5,
+                    child: const Center(
+                      child: Icon(Icons.image_not_supported, color: Colors.grey),
+                    ),
+                  ),
                 ),
               ),
               Padding(
@@ -387,8 +436,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               CachedNetworkImage(
                 imageUrl: arFurniture.imageNames ?? "",
                 fit: BoxFit.cover,
-                placeholder: (context, url) =>
-                    const Center(child: CircularProgressIndicator(color: AppColors.purple_rgba_5400bf,)),
+                memCacheWidth: 800,
+                maxWidthDiskCache: 800,
+                fadeInDuration: const Duration(milliseconds: 300),
+                placeholder: (context, url) => Container(
+                  color: AppColors.grey_rgba_F0F2F5,
+                  child: const Center(
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.purple_rgba_5400bf,),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: AppColors.grey_rgba_F0F2F5,
+                  child: const Center(
+                    child: Icon(Icons.image_not_supported, color: Colors.grey),
+                  ),
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
